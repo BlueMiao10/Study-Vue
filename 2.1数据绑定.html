@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据绑定</title>
+
+</head>
+
+<body>
+  <div id="app">
+    <!--{{}}最基本的文本插值的方式，它会自动将我们双向绑定的数据实时显示出来，-->
+    {{msg}}
+    <!--除了简单的绑定属性值外，还可 以使用 JavaScript 表达式进行简单的运算 、 三元运算等-->
+    {{1+2}}
+    {{1? msg : a}}
+    <!--文本插值的形式，支持单个表达式，不支持语句、流程控制和多行表达式-->
+    <!--{{if(1){msg}}}是不支持的-->
+    <!--{{var a = 2}} 也不支持，因为这相当于是两句话 -->
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //创建一个Vue的根实例，并启动Vue应用，可以作为一个入口
+    const app = new Vue({
+
+      //element，用于指定页面上已经存在的DOM元素，挂载到此DOM元素上
+      el: '#app',
+
+      //声明应用内需要双向绑定的数据,
+      data: {
+        msg: "开始学习",
+        a: 2
+      },
+    })
+
+    //可以通过在属性前边加$来进行访问Vue实例的属性
+    console.log(app.$data)
+
+    //访问data中的属性
+    console.log(app.msg)
+  </script>
+</body>
+
+</html>

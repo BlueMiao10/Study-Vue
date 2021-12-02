@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>过滤器、指令和事件</title>
+  <style>
+    .transRed {
+      background-color: red;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="dataApp">
+    <!--过滤器，|后边接的是定义的过滤器的名字，过滤器在Vue实例中进行定义-->
+    {{date | formateDate}}
+
+    <!--可以有很多个过滤器，过滤器串联-->
+    <!-- {{date | filter1 | filter2}} -->
+    <!-- 过滤器也支持传参数 -->
+    <!-- {{date | formateDate(a,b)}} -->
+
+    <!--指令和事件-->
+    <!--v-text:解析文本，其实作用和{{}}非常相似-->
+    <p v-text="caption"></p>
+    <!--v-html:解析html-->
+    <p v-html="color"></p>
+    <!--v-bind:动态更新HTML元素上的属性，比如id、class 等，它的用法不一样，后边是冒号-->
+    <p v-bind:class="className">背景颜色变化</p>
+    <!--v-on:用来绑定事件监听器-->
+    <button v-on:click="add">Vue</button>
+    {{count}}
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //在月份、日期、小时小于10 的时候补0
+    var addDate = function (value) {
+      return (value < 10) ? "0" + value : value
+    }
+
+    //需求一：在页面中实时显示当前时间
+    var app = new Vue({
+      el: '#dataApp',
+      data: {
+        //只这样并不能实时显示
+        //date: new Date()
+        date: new Date(),
+        caption: "这是当前时间",
+        color: '<p style="color: blue;">哇！这是实时时间</p>',
+        className: "transRed",
+        count: 0
+      },
+      //定义过滤器
+      filters: {
+        //这里的value就是需要过滤器处理的数据,时默认就有的，不需要传参
+        formateDate(value) {
+          //对于这个Demo来说，date是个字符串，而我们对他处理需要使用数字类型
+          let date = new Date(value)
+          //接下来分别对时间进行处理
+          let year = date.getFullYear()
+          //这里的加1是因为，这个方法获得的月份回避实际月份小1
+          let month = addDate(date.getMonth() + 1)
+          let day = addDate(date.getDate())
+          let hour = addDate(date.getHours())
+          let minutes = addDate(date.getMinutes())
+          let seconds = addDate(date.getSeconds())
+
+          //将处理好数据返回
+          return year + " 年 " + month + " 月 " + day + " 日 " + hour + " 时 " + minutes + " 分 " + seconds + " 秒"
+        }
+      },
+      methods: {
+        add() {
+          this.count++
+        }
+      },
+      mounted() {
+        //这个时候就很容易知道this的指向是实例对象，因为这是个构造函数
+        var _this = this;
+        //定时器 setInterval()
+        this.timer = setInterval(() => {
+          _this.date = new Date();
+        }, 1000)
+      },
+      //清除定时器
+      beforeDestroy() {
+        if (this.timer) {
+          clearInterval(this.timer)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
