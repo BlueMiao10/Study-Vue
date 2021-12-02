@@ -31,8 +31,12 @@
     <p v-html="color"></p>
     <!--v-bind:动态更新HTML元素上的属性，比如id、class 等，它的用法不一样，后边是冒号-->
     <p v-bind:class="className">背景颜色变化</p>
+    <!--语法糖-->
+    <!--<p :class="className">背景颜色变化</p>-->
     <!--v-on:用来绑定事件监听器-->
     <button v-on:click="add">Vue</button>
+    <!--语法糖-->
+    <!--<button @click="add">Vue</button>-->
     {{count}}
   </div>
 
