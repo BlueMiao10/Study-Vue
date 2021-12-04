@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id='app'>
+    <input id="doc" type=" text" v-model='value' placeholder="请输入">
+    <button @click='change'>翻转字符串</button>
+    <p>翻转后的字符串：{{msg}}</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //点击时翻转字符串
+    const app = new Vue({
+      el: '#app',
+      data: {
+        value: '',
+        msg: ''
+      },
+      methods: {
+        change() {
+          return this.msg = this.flip
+        }
+      },
+      computed: {
+        flip() {
+          //为什么这里使用document.querySelector不可以？
+          return this.value.split('').reverse().join('')
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
