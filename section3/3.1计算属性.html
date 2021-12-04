@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算属性</title>
+</head>
+
+<body>
+  <div id="app">
+    {{text}} <br>
+    <!--字符串以“，”为间隔转换为数组，然后数组翻转，最后以“，”为分割转化为字符串-->
+    <!-- 当需求增加的时候，逻辑过长就会变得臃肿，难以维护，所以遇到复杂逻辑时应该使用计算属性 -->
+    {{text.split(',').reverse().join(',')}} <br>
+    <!-- 计算属性依赖于Vue属性中的数据，一旦实例中的属性值发生变化，计算属性就会发生变化。文本插值中的这个东西与计算属性是双向绑定的 -->
+    {{reverseText}} <br>
+    <!-- 计算属性还可以依赖多个Vue实例中的数据 -->
+    {{reverseText}} <br>
+    <!-- 计算属性的缓存 -->
+    <!-- 不管渲染不渲染，只要计算属性依赖的数据未发生变化，计算属性就不发生变化 -->
+    {{now}} <br>
+    <!-- 调用方法要加括号 -->
+    <!-- 只要页面重新渲染，方法就重新执行 ，不需要渲染，方法就不需要重新执行-->
+    {{thisTime()}}
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app2 = new Vue({
+      el: "#app2",
+      data: {
+        msg: "我是app2中的内容"
+      }
+    })
+    //需求：将“123，456，789”变成“789，456，123”
+    const app = new Vue({
+      el: "#app",
+      data: {
+        text: "123,456,789"
+      },
+      //定义计算属性,我们可能会用到很多个计算属性，所以这里把它写成一个对象
+      //如果计算属性直接接一个函数，这个函数默认的就是getter函数
+      computed: {
+        reverseText() {
+          let a = this.text.split(',').reverse().join(',')
+          return a + "---------" + app2.msg
+        },
+        now() {
+          return Date.now()
+        }
+      },
+      methods: {
+        thisTime() {
+          return Date.now()
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

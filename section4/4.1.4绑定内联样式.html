@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-bind以及class与style的绑定</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 绑定内联样式 -->
+    <!-- 键代表style的属性，值就代表属性对应的值了 -->
+    <!-- 在vue.js中只能有两种命名方式，驼峰或者短横线。大写字母会自动转换成-+小小写 -->
+    <!-- asFEa 转换成 as-f-ea -->
+    <!-- 对象语法绑定样式 -->
+    <p :style="{fontSize:fontSize+'px',color:color}">你好，世界</p>
+    <!-- 数组方法绑定样式，几乎没人用 -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const App = new Vue({
+      el: '#app',
+      data: {
+        fontSize: 100,
+        color: 'red'
+      }
+    })
+  </script>
+</body>
+
+</html>

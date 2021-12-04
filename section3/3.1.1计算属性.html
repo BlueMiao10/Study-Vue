@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算属性</title>
+</head>
+
+<body>
+  <div id="app">
+    <p>购物车的总价是：{{calPrice}}</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //需求：计算购物车商品总价
+    var app2 = new Vue({
+      el: "#asc",
+      data: {
+        msg: "我是app2中的内容"
+      }
+    })
+    var app = new Vue({
+      el: "#app",
+      data: {
+        shopCar1: [
+          {
+            name: "iphone",
+            price: 8599,
+            number: 5
+          },
+          {
+            name: "ipad",
+            price: 2599,
+            number: 6
+          }
+        ],
+        shopCar2: [
+          {
+            name: "HuaWei",
+            price: 5599,
+            number: 10
+          },
+          {
+            name: "computer",
+            price: 8596,
+            number: 6
+          },
+          {
+            name: "robot",
+            price: 8596,
+            number: 6
+          },
+          {
+            name: "television",
+            price: 8596,
+            number: 6
+          }
+        ]
+      },
+      computed: {
+        calPrice() {
+          let prices = 0
+          for (let i = 0; i < this.shopCar1.length; i++) {
+            prices += this.shopCar1[i].price * this.shopCar1[i].number
+          }
+          for (let j = 0; j < this.shopCar2.length; j++) {
+            prices += this.shopCar2[j].price * this.shopCar2[j].number
+          }
+
+          return prices + "------" + app2.msg
+        }
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>

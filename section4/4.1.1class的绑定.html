@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-bind以及class与style的绑定</title>
+  <style>
+    .showClass {
+      background-color: red;
+      font-size: 20px;
+      width: 100px;
+    }
+
+    .bgClass {
+      background-color: blue;
+      font-size: 20px;
+      width: 100px;
+    }
+
+    .active {
+      background-color: pink;
+      font-size: 20px;
+      width: 100px;
+    }
+
+    .disappear {
+      border: 5px solid purple;
+    }
+
+    .style {
+      padding: 5px;
+      border: none;
+      box-shadow: 0 0 2px 0;
+      outline: none;
+      background-color: rgb(214, 207, 207);
+      margin-left: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 对象语法绑定class,class的值是一个对象，对象的键名自己取，键值是个布尔值，true对象class添加，false则相反 -->
+    <!-- 对象里当然可以有多个键值对 -->
+    <p :class="{showClass:isActive,bgClass:isBorder}">你好，世界</p>
+    <button :class='{style:isAppear}' @click="changeColor">Click Me</button>
+    <!-- 数组语法绑定class,示例一看即懂 -->
+    <p :class='[arrayClass,noArrayClass]'>你好，新世界</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const App = new Vue({
+      el: '#app',
+      data: {
+        //对象语法的键值的true/false的初始值
+        isActive: true,
+        isBorder: false,
+        isAppear: true,
+        arrayClass: 'active',
+        noArrayClass: 'disappear'
+      },
+      methods: {
+        changeColor() {
+          this.isActive = !this.isActive
+          this.isBorder = !this.isBorder
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

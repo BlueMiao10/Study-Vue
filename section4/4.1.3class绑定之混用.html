@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-bind以及class与style的绑定</title>
+  <style>
+    .active {
+      background-color: pink;
+      font-size: 20px;
+      width: 100px;
+    }
+
+    .appear {
+      border: 5px solid purple;
+    }
+
+    .style {
+      padding: 5px;
+      border: none;
+      box-shadow: 0 0 2px 0;
+      outline: none;
+      background-color: rgb(214, 207, 207);
+      margin-left: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 数组语法和对象语法混用来绑定class,让class=[],其中第一个成员是对象，后边的是数组成员 -->
+    <button :class='{style:isAppear}' @click="changeColor">Click Me</button>
+    <p :class='[{appear:isArrayClass},arrayClass]'>你好，新世界</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const App = new Vue({
+      el: '#app',
+      data: {
+        isAppear: true,
+        arrayClass: 'active',
+        isArrayClass: true
+      },
+      methods: {
+        changeColor() {
+          this.isArrayClass = !this.isArrayClass
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

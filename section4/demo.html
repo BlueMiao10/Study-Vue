@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>对象语法class绑定</title>
+</head>
+
+<body>
+  <div id="app">
+    <p :style="[styleA,styleB]">你好，新世界</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //偶数次点击无边框，奇数次点击有边框
+    const app = new Vue({
+      el: '#app',
+      data: {
+        styleA: {
+          fontSize: 30 + 'px',
+          width: 100 + 'px',
+          color: 'red'
+        },
+        styleB: {
+          backgroundColor: 'blue'
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

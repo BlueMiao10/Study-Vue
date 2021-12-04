@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算属性</title>
+</head>
+
+<body>
+  <!-- 要更改名字，就调用计算属性的setter方法 -->
+  <p id="app">我的名字是：{{showName}}</p>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        firstName: "Blue",
+        lastName: "miao"
+      },
+      //当我们不指定的时候，默认用法是getter函数，就像现在，computed后边直接跟一个函数
+      //也就是说，对于一个计算属性，其实他里边应该有一个setter函数有一个getter函数，默认调用getter函数，但他们两个其实都可以被改写,如果要改写就要显式的写出来
+      computed: {
+        /*
+        showName() {
+          return this.firstName + " " + this.lastName
+        }
+        */
+        //转换一下,就相当于下边这样
+        showName: {
+          get() {
+            return this.firstName + " " + this.lastName
+          },
+          //给他加个set
+          set(newVal) {
+            //约定我们传入的格式是blue,miao 这种
+            console.log('a')
+            let name = newVal.split(',')  //先分割成数组
+            this.firstName = name[0]
+            this.lastName = name[1]
+          }
+        }
+      }
+
+    })
+  </script>
+</body>
+
+</html>
