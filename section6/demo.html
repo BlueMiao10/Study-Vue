@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-model</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>v-model</legend>
+      <p>单个单选框</p>
+      <input type="radio" value='前端' v-model='picked' :value='name'>前端
+      <p>你只有一个选择：{{picked}}</p>
+      <p>多个单选框</p>
+      <input type="radio" name='work' value='前端' v-model='selectName'>前端
+      <input type="radio" name='work' value='后端' v-model='selectName'>后端
+      <input type="radio" name='work' value='算法' v-model='selectName'>算法
+      <p>我喜欢的工作岗位是：{{selectName}}</p>
+    </fieldset>
+
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        selectName: '',
+        picked: true,
+        name: '前端'
+      }
+    })
+  </script>
+</body>
+
+</html>

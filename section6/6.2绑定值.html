@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>绑定值</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>v-model</legend>
+      <p>单选按钮</p>
+      <!-- 单选按钮：如果我们就想要利用v-model双向绑定数据，即被选中时有数据呈现
+        只需要用v­bind给单个单选框绑定一个value值，此时，v­model绑定的就是他的value值-->
+      <input type="radio" v-model='picked' :value='value'>点击
+      <p>输出在变化：{{picked}}</p>
+      <p>复选框</p>
+      <!-- 复选框：如果我们想要在选中和未被选中时呈现两种不同的表现，那么可以添加true-value和false-value属性，在选中时呈现true-value的数据，否则是false-value的数据
+          从第一次点击过后，v-model的值就与value的值绑定了？上边的也是这样
+      -->
+      <input type="checkbox" v-model='toggle' :true-value='value1' :false-value='value2'>点击
+      <br>{{toggle}} <br>
+      被选中：{{toggle === value1}} <br>
+      未被选中：{{toggle === value2}}
+
+      <p>下拉表单</p>
+      <!-- 当绑定在select上时，value属性的值并没有带来什么影响 -->
+      <select name="" id="" v-model='work' :value='{name:"数据分析"}'>
+        <option value="前端">前端</option>
+        <option value="后端">后端</option>
+        <option value="算法">算法</option>
+      </select>
+      <p>你喜欢哪个职业：{{work}}</p>
+      <hr>
+      <!-- 当绑定在option上时。发现当选中数据分析，打印出来的是一个对象，此时v-model还没用 跟value的值绑定，当选中时被双向绑定，此时{{work}}输出的就是对象 -->
+      <select name="" id="" v-model='work'>
+        <option :value='{name:"数据分析"}'>数据分析</option>
+        <option value="后端">后端</option>
+        <option value="算法">算法</option>
+      </select>
+      <p>你喜欢哪个职业：{{work}}</p>
+    </fieldset>
+
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        picked: true,
+        value: '我出现了',
+        toggle: true,
+        value1: '我被选中了',
+        value2: '我没被选中',
+        work: '后端'
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>绑定值</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>v-model</legend>
+      <p>lazy修饰符</p>
+      <!-- v­model默认是在input输入时实时同步输入框的数据，而lazy修饰符，可以使其在失去焦点或者敲回车键之后在更新 -->
+      输入：<input type="text" v-model.lazy='strInput'>{{strInput}}
+      <p>number修饰符</p>
+      <!-- 把输入的数据类型转换为数字类型 -->
+      输入：<input type="text" v-model.number='numInput'>{{typeof numInput}}
+      <p>trim修饰符</p>
+      <!-- 自动过滤输入过程中收尾输入的空格 -->
+      <input type="text" v-model.trim='delSpace'>{{delSpace.split('')}}
+    </fieldset>
+
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        strInput: '',
+        numInput: '',
+        delSpace: ''
+      }
+    })
+  </script>
+</body>
+
+</html>

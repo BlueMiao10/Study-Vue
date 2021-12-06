@@ -9,10 +9,73 @@
 </head>
 
 <body>
+  <div id="app">
+    <fieldset>
+      <legend>v-model</legend>
+      <p>基本用法：</p>
+      <input type="text" v-model='value'>{{value}}
+      <p>多文本框：</p>
+      <!-- 你好世界并没有展现出来，所以说我们加了v-model的时候，此时只依赖于它双向绑定的值 -->
+      <textarea cols="30" rows="10" v-model='msg'>你好，世界</textarea>{{msg}}
+      <p>单选框：</p>
+      <!-- 单个单选框  我们用v-bind-->
+      正确<input type="radio" :checked='oneRadio'>
+      <!-- 此处用v-model不生效,比如现在是true，应该默认选中，但是并没有 -->
+      错误<input type="radio" v-model='oneRadio'>
+      <hr>
+      <!-- 多个单选框 :初始值可以更改，比如我们selectSubject中的值设为英语时，默认就选中了英语-->
+      语文：<input type="radio" name="subject" value="语文" v-model='selectSubject'>
+      数学：<input type="radio" name="subject" value="数学" v-model='selectSubject'>
+      英语：<input type="radio" name="subject" value="英语" v-model='selectSubject'>
+      <p>你最喜欢的科目是：{{selectSubject}}</p>
+      <p>复选框：</p>
+      正确<input type="checkbox" @checked='oneRadio'>
+      错误<input type="checkbox" v-model='oneRadio'>
+      <hr>
+      <!-- 多个复选框的时候，如果绑定的是字符串，则会转化为true、false，与所有绑定的复选框的
+            checked属性相对应 ，如果想展现选定的字符串，需要使用数组
+      -->
+      <input type="checkbox" value="海贼王" v-model='selectName'>海贼王
+      <input type="checkbox" value="火影忍者" v-model='selectName'>火影忍者
+      <input type="checkbox" value="鬼灭之刃" v-model='selectName'>鬼灭之刃
+      <p>你喜欢的动漫：{{selectName}}</p>
+      <p>下拉框：</p>
+      <!-- 单选下拉框 -->
+      <select name="" id="" v-model='work'>
+        <option value="前端">前端</option>
+        <option value="后端">后端</option>
+        <option value="算法">算法</option>
+      </select>
+      <p>你喜欢哪个职业：{{work}}</p>
+      <!-- 多选下拉框 与前边的checkbox一样，用[]可以实现多选，如果不用数组,默认页会转换成数组形式-->
+      <select name="" id="" v-model='work1' multiple>
+        <option value="前端">前端</option>
+        <option value="后端">后端</option>
+        <option value="算法">算法</option>
+      </select>
+      <p>你喜欢哪个职业：{{work1}}</p>
+      <hr>
+      <p>总结：如果是单选，初始化最好给定字符串，因为v­model此时绑定的是静态字符串或者布尔值，如果是多选，初始化最好给定一个数组</p>
+    </fieldset>
+
+  </div>
 
 
-
-
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        value: '',
+        msg: '',
+        oneRadio: true,
+        selectSubject: '',
+        selectName: [],
+        work: '前端',
+        work1: ''
+      }
+    })
+  </script>
 </body>
 
 </html>
