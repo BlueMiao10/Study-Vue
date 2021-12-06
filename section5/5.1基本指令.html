@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>内置指令</title>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 基本指令 -->
+    <!-- v-cloak:解决初始化慢导致页面闪动的最佳实践 
+        一般是在vue实例结束编译后的时候从html上移除，那个时候才开始渲染msg
+        一般与display：none结合使用
+    -->
+    <p v-cloak>{{msg}}</p>
+    <!-- ----------------------- -->
+    <!-- v-once：定义它的元素和组件只渲染一次
+        对于data中的onceData,当我们在浏览器控制台修改它的内容时，他会马上渲染然后浏览器页面上展现的内容随之变化
+        而使用了此指令，则不会再渲染，内容也不再发生变化
+    -->
+    <p v-once>{{onceData}}</p>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    /*我们执行下边操作的时候，msg不会加载，页面会一直渲染，因为在这里被阻塞住了，vue还没有实例化。
+    当我们网速过慢的时候也有可能会出现这种情况,即大括号先出现msg，然后msg的内容在被替换，这个过程会出现闪动，v-cloak就可以减少这个问题
+    */
+    /*
+    while(true){}
+    */
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg: "我在运行",
+        onceData: "我也在运行"
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>列表渲染</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 列表渲染 -->
+    <!-- v-for的用法：当需要将一个数组遍历或枚举一个对象属性的时候循环显示时，就会用到列表渲染指令v-­for。 
+      一定要写在要遍历的元素上，v-for="item in items"  
+    -->
+    遍历多个对象
+    <ul>
+      <li v-for='value in values'>{{value.name}}</li>
+    </ul>
+    带索引的写法：括号的第一个参数代表变量，就是上述的item，第二个参数代表索引值
+    <ul>
+      <li v-for='(value,index) in values'>{{index}}-----{{value.name}}</li>
+    </ul>
+
+    遍历一个对象的多个属性<br>
+    我喜欢的课程：<span v-for='value in subject'>{{value}}</span>
+    <br>
+    得到对对象的键值、键名和索引，在括号中的顺序不能改变
+    <p v-for='(value,key,index) in subject'>第{{index}}个{{key}}指的是{{value}}</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        //遍历多个对象时，使用数组，这里的每个元素都对应一个li
+        values: [
+          { name: "认真听课" },
+          { name: "认真记笔记" },
+          { name: "不玩手机" }
+        ],
+        subject: {
+          name1: 'Chinese ',
+          name2: 'Math ',
+          name3: 'Music '
+        }
+      },
+
+      methods: {
+      }
+    })
+  </script>
+</body>
+
+</html>

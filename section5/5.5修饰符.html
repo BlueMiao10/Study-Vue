@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方法与事件</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 当我们点击button时，发现会弹出两个提示框，这是因为button在div里
+        如果我们只想button的提示框被弹出 click.stop='btnClick'  .stop:阻止单击事件向上冒泡
+    -->
+    <div @click='divClick' style="height: 100px;width: 100px;background-color: red;">
+      <button @click.stop='btnClick'>Click Me</button>
+    </div>
+    <br>
+    <!-- 提交form表单时，总是会自动重载刷新屏幕
+      prevent:提交事件并且不重载页面
+    -->
+    <form action="#" @submit.prevent='handle'>
+      <button type="submit">点击我提交</button>
+    </form>
+    <br>
+    <!-- 当我们点击button时，发现会弹出两个提示框，这是因为button在div里
+            如果我们想点谁谁弹出  self:只是作用在元素本身而非子元素的时候调用
+        -->
+    <div @click.self='divClick' style="height: 100px;width: 100px;background-color: red;">
+      <button @click='btnClick'>Click Me</button>
+    </div>
+    <!-- once: 只执行一次的方法 -->
+    <br>
+    <button @click="clickOnce">一直点击一直弹出</button>
+    <button @click.once="clickOnce">一直点击只弹出一次</button>
+    <br>
+    <br>
+    <!-- 监听键盘事件 这里的.13代表enter，但是其实vue.js为我们提示了具体的鼠标按键，具体的可以查阅官网-->
+    <input type="text" @keyup.13='submit' placeholder=".13">
+    <input type="text" @keyup.enter='submit' placeholder=".enter">
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        counter: 0
+      },
+      methods: {
+        divClick() {
+          alert('div 被点击了')
+        },
+        btnClick() {
+          alert('button被点击了')
+        },
+        handle() {
+          alert('我的重载被阻止了')
+        },
+        clickOnce() {
+          alert('我在被点击')
+        },
+        submit() {
+          alert('按下了Enter键')
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

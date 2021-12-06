@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>方法与事件</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 当我们调用的事件函数有参数的时候需要带括号.如果方法中带有参数，但是没有加括号，默认传原生事件对象event ,在我们这里就是[object PointerEvent]-->
+    <button @click="change()">点我加1</button>
+    <button @click="change(5)">点我加5</button>
+    {{counter}}
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        counter: 0
+      },
+      methods: {
+        change(count) {
+          count = count || 1
+          this.counter += count
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

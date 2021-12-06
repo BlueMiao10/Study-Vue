@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数组更新、过滤与排序</title>
+</head>
+
+<body>
+  <div id="app">
+    <p v-for='supply in supplies'>{{supply}}</p>
+    <!-- 关于数组的其他操作再控制台实现，并且会引起页面的重新渲染 ，下边两种是实现起来稍微麻烦点的-->
+    也可以使用计算属性来实现
+    <button @click='sorted'>点击我进行排序</button>
+    <button @click='reversed'>点击我进行翻转</button>
+
+    <!-- 除了能够改变数组进而使得页面重新渲染的方法，还有两种情况无法改变数组
+      即两个数组变动vue检测不到
+    -->
+    <p>（1）改变数组的指定项：</p>
+    <button @click='change'>改变数组的指定项</button>
+    <p>（2）改变数组的长度：</p>
+    <button @click='changeLength'>改变数组的长度</button>
+
+    <!-- vue提供了一种方法：改变指定项： Vue.set(app.arr,1,”car”);  大写的Vue是全局变量 -->
+    <!-- 你会发现这个方法和splice很像,但是splice是可以删除的，比如app.supplies.splice(0) 就把数组全部删除了，0代表的是你计划操作的位置，第二个参数是你操作的数组长度，没设置默认是整个数组的长度，第三个参数则是可选参数，在这里没啥用 -->
+    <!-- 对于splice，如果想把数组变为长度1，则 app.supplies.splice(1) -->
+    <p>（2）过滤数组：{{flip}}</p>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        supplies: ['notebook', 'pencil', 'ruler']
+      },
+      methods: {
+        //对数组进行排序
+        sorted() {
+          this.supplies.sort((a, b) => {
+            return a.length - b.length
+          })
+        },
+        //对数组进行翻转
+        reversed() {
+          return this.supplies.reverse()
+        },
+        //改变数组的指定项
+        change() {
+          this.supplies[0] = "car"
+        },
+        //改变数组的长度 
+        changeLength() {
+          this.supplies.length = 2
+        }
+      },
+      computed: {
+        //过滤数组中含有'oo'的项
+        flip() {
+          return this.supplies.filter((supply) => {
+            //正则表达式过滤
+            return supply.match(/oo/)
+          })
+        }
+      }
+    })
+
+    //第二个参数是你想添加参数的index,第三个参数是你想添加的值
+    Vue.set(app.supplies, 2, 'bicycle')
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>条件渲染</title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 条件渲染 -->
+    <!-- v-if:后边接的是=，=后的内容必须是布尔值,true的时候渲染（可以类比于if语句中if、else、else if） -->
+    <p v-if=false>{{msg1}}</p>
+    <p v-else-if=true>{{msg2}}</p>
+    <p v-else>{{msg3}}</p>
+    <!-- 单击按钮，切换输入框，但是当我们再用户名输入框填写内容然后切换之后发现密码框的内容与用户名框的内容是一致的
+        这是因为Vue 在渲染元素时 ，出于效率考虑，会尽可能地复用已有的元素而非重新渲染， 因
+        此会出现乌龙。在此例子中，input内的内容被复用了
+        解决方法：加key，要是唯一的（名字可以自己取），提供key值可以来决定是否复用该元素
+    -->
+    <div v-if=type==='user'>用户名：
+      <input type="text" placeholder="请输入用户名" key='use'>
+    </div>
+    <div v-else>密码：
+      <input type="text" placeholder="请输入密码" key='psd'>
+    </div>
+
+    <button @click='change'>点击切换</button>
+
+    <!-- v-show：与v-if类似，显现与否取决于布尔值的值，注意这里是显现而不是渲染 -->
+    <!-- v-if 和 v-show的区别：实时渲染：页面显示就渲染，不显示我就给你移除。比如上边的两个显示框，打开控制台就可以发现就只有一个输入框是被渲染的
+        而v­-show的元素永远存在于页面中，只是改变了css的display的属性，你看不见的时候只是display:none 了
+        至于何时使用，顾名思义，实时渲染，比如时间这种的就用v-if,很长时间不变的，可以用v-show
+    -->
+    <p v-show=a===5>我在被渲染</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //需求，点击按钮，切换输入框。v-if为true显示用户名输入框，否则显示密码输入框
+    const app = new Vue({
+      el: '#app',
+      data: {
+        msg1: '如果是true显示我',
+        msg2: '上边不行就显示我',
+        msg3: '其他情况显示我',
+        type: 'user',
+        a: 6
+      },
+
+      methods: {
+        //点击时，如果type等于user,就切换为passWord，否则就切换为user
+        change() {
+          this.type = (this.type === 'user') ? 'passWord' : 'user'
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
