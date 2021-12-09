@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>数据验证</legend>
+      <p>组件相关命名方式</p>
+      <!-- 在html中，大写字母会被转换成小写字母，所以printMsg和printmsg是一样的
+        但在vue实例化时，大写是可以被识别的，所以如果我们使用了驼峰命名就会造成名字不一致的情况
+        因此在组件中的html中使用必须使用kebab­case（短横线）命名方式。在html中不允许使用驼峰
+      -->
+      <!-- You should probably use "print-msg" instead of "printMsg". -->
+      <!-- <app-component printMsg="这样是不行的"></app-component> -->
+      <app-component print-msg="这样是不行的"></app-component>
+      <hr>
+      <!-- 如果不传d，就会Missing required prop: "d" -->
+      <type-component :a='a' :b='b' :c='c' :d='d' :f='f' :g='g'></type-component>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        a: '0',
+        b: '你好啊',
+        c: '',
+        d: 23,
+        e: [],
+        f: 88,
+        g: function () { console.log('这是一个函数') }
+      },
+
+      components: {
+        'app-component': {
+          //在props中驼峰和短横线都可以
+          props: ["print-msg", "width"],
+          //除了props之外的就必须使用驼峰命名
+          template: `<div>我得到的数据是：{{printMsg}}</div>`,
+        },
+        'type-component': {
+          //利用props对值进行数据类型限定，此时的props要是一个对象
+          props: {
+            //a是字符串类型，如果我们在父组件的data中的a是一个Number类型的就会报错
+            a: String,
+            //b可以是String类型的，也可以是Number类型的
+            b: [Number, String],
+            //如果我们想要c是布尔类型，想让它的默认值是true   type（类型）  required（是否是必选项）  default(默认值)
+            c: {
+              type: Boolean,
+              //当你利用bind传递数据时，就会启用默认值
+              default: true
+            },
+            d: {
+              type: Number,
+              //如果我们添加了这个语句，但是没有就会报错
+              required: true,
+              default: 2
+            },
+            e: {
+              type: Array,
+              default() {
+                return [666]
+              }
+            },
+            //自定义一个验证
+            f: {
+              validator(value) {
+                //我们的value由父组件传入吗，是88，所以返回true，所以满足验证不报错
+                return value > 10
+                //此时，不满足验证  Invalid prop: custom validator check failed for prop "f"
+                //return value < 10
+              }
+            },
+            g: {
+              type: Function
+            }
+          },
+          template: `<div>{{a}}---{{b}}---{{c}}---{{d}}---{{e}}---{{g()}}</div>`
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

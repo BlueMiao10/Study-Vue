@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>子组件向父组件传递数据</legend>
+      <p>我现在的银行卡余额是：{{total}}</p>
+      <!-- 一、在父组件中自定义事件change -->
+      <app-component @change='handle'></app-component>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //需求：通过加号按钮和减号按钮实现子组件向父组件传递数据
+    const app = new Vue({
+      el: '#app',
+      data: {
+        total: 2000,
+      },
+      methods: {
+        //三、在自定义事件中接收子组件传递过来的数据
+        //此处的形参value就是传递过来的参数
+        handle(value) {
+          this.total = value
+        }
+      },
+      components: {
+        'app-component': {
+          template: `<div>
+              <button @click='up'>+1000</button>
+              <button @click='down'>-1000</button>
+            </div>`,
+          data() {
+            return {
+              count: 2000
+            }
+          },
+          //实现的需求是，点击button时，count增加1000或者减少1000
+          methods: {
+            up() {
+              this.count += 1000
+              //二、在子组件中用$emit触发事件，第一个参数是事件名，后边的参数是要传递的数据，可以传递无数个数据
+              this.$emit('change', this.count)
+            },
+            down() {
+              this.count -= 1000
+              this.$emit('change', this.count)
+            }
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

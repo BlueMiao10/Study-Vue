@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>非父子组件之间的通信</legend>
+      <p>非父组件之家的通信</p>
+      <app-component ref='a'></app-component>
+      <child-component ref='b'></child-component>
+      <hr>
+      <p>父链、子链</p>
+      <son-component ref='c'></son-component>====={{msg}}
+      <br><br>
+      <button @click='getData'>我是父组件的按钮，我要拿到子组件的内容</button>====={{fromChild}}
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        bus: new Vue(),
+        msg: '数据还未修改',
+        fromChild: '我还没开始拿'
+      },
+      methods: {
+        getData() {
+          //用来拿到子组件的内容
+          this.fromChild = this.$refs.b.msg
+        }
+      },
+      components: {
+        'app-component': {
+          template: `<div><button @click='handle'>向B组件传递</button></div>`,
+          methods: {
+            handle() {
+              this.$root.bus.$emit('add', this.a)
+            }
+          },
+          data() {
+            return {
+              a: '我是来自A组件中的信息',
+              msg: '我是A中的信息'
+            }
+          }
+        },
+        'child-component': {
+          template: '<div></div>',
+          created() {
+            //在B组件中，当实例创建的时候就监听add事件
+            this.$root.bus.$on('add', function (value) {
+              alert(value)
+            })
+          },
+          data() {
+            return {
+              msg: '我是B中的信息'
+            }
+          }
+        },
+        'son-component': {
+          template: `<button @click='setData'>通过点击我修改父组件的数据</button>`,
+          methods: {
+            setData() {
+              this.$parent.msg = '数据已经修改了'
+            }
+          },
+          data() {
+            return {
+              msg: '我是C中的信息'
+            }
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

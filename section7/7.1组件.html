@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>组件的使用方法</legend>
+      <!-- 全局注册的组件 -->
+      <my-component></my-component>
+      <hr>
+      <!-- 局部注册的组件 -->
+      <app-component></app-component>
+      <hr>
+      <!-- 在页面上看着好像是没有什么问题，但是查看DOM结构发现，组件被自动踢出了table标签，这是因为table标签里只允许有tbody、thead等标签 -->
+      <table>
+        <app-component></app-component>
+      </table>
+      <hr>
+      <!-- 如果我们就想在table里使用组件呢？使用is属性，这是发现不会被踢出了，当然这个不只是针对table,也包含其他受限的 -->
+      <table>
+        <tbody is="app-component"></tbody>
+      </table>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //全局注册组件，第一个参数是组件的名字，第二个参数是一个对象
+    //优点：所有的vue实例都可以使用；缺点：权限太大，容错率低
+    Vue.component('my-component', {
+      template: `<div>我是一个组件</div>`
+    })
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+
+      },
+      //局部注册组件，只能在相应DOM元素下使用
+      components: {
+        'app-component': {
+          template: `<div>我是app中的组件</div>`
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

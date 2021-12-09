@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>单向数据流的两种应用场景</legend>
+      <!-- 通过props传递的数据是单向的，即可以由父组件向子组件传递数据，但不能由子组件向父组件传递。这是为了将父子组件解耦，避免子组件无意中修改父组件，毕竟父组件中可能有多个子组件 -->
+      <p>第一种应用场景</p>
+      <!-- 是父组件传递初始值进来，子组件将它作为初始值保存起来，在自己的作用域下可以随意使用和修改 -->
+      <app-component msg="password"></app-component>
+      <hr>
+      <p>第二种应用场景</p>
+      <!-- prop 作为需要被转变的原始值传入。这种情况用计算属性就可以了 -->
+      <!-- 需求：通过input中输入地数据直接改变宽度 -->
+      <!-- 我们首先利用前边学地利用v-bind、v-model、props动态接受父组件传递来的数据，但此时我们接收到的width只是个数字，此时要使用计算属性，将他转变为样式加在我们的template上 -->
+      <input type="text" v-model='width'>
+      <width-component :width='width'></width-component>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        width: 0
+      },
+
+      components: {
+        'app-component': {
+          props: ["msg", "width"],
+          template: `<div>我得到的数据是：{{count}}</div>`,
+          data() {
+            return {
+              //props中的数据可以通过this.XXX直接来进行获取,将父组件中传递的数据保存起来（这里是保存在count中）
+              count: this.msg
+            }
+          }
+        },
+        'width-component': {
+          props: ["width"],
+          template: `<div :style='style'></div>`,
+          computed: {
+            style() {
+              //返回的是一个样式
+              return {
+                width: this.width + 'px',
+                backgroundColor: 'red',
+                height: 50 + 'px'
+              }
+            }
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

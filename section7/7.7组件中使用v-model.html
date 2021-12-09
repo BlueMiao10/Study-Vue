@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>组件中使用v-model</legend>
+      <p>我的工资是：{{total}}</p>
+      <!-- <app-component @change='handle'></app-component> -->
+      <hr>
+      <p>我的工资是：{{total2}}</p>
+      <app-component v-model='total2'></app-component>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        total: 2000,
+        total2: 2000,
+        total3: 2000
+      },
+      methods: {
+        // handle(value) {
+        //   this.total3 = value
+        // }
+      },
+      components: {
+        'app-component': {
+          template: `<div>
+            <button @click='up'>+1000</button>
+            </div>`,
+          data() {
+            return {
+              count: 2000
+            }
+          },
+          methods: {
+            up() {
+              this.count += 1000
+              this.$emit('input', this.count)
+            }
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

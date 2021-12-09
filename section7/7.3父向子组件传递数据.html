@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>父组件向子组件传递数据</legend>
+      <!-- 在父组件里向子组件传递消息 -->
+      <h3>我是父组件</h3>
+      <!-- 这么写，发现会报错 此时外边的div是父组件，而下边这个就是定义在父组件里的子组件，我们msg的写法就相当于是父组件将向子组件传递数据。那么怎么解决呢？就是在props里定义变量-->
+      <child-component msg="我是来自父组件的内容"></child-component>
+      <child-component msg=[1,2,3]></child-component>
+      <hr>
+      <p>利用v-bind来进行动态数据绑定</p>
+      <!-- 这里的v-model是vue实例中的动态数据绑定，是来自父组件的 -->
+      <input type="text" v-model='printMsg'>
+      <!-- 把input中的内容传递给子组件 .v-bind绑定的属性就是template中需要的，它等于的东西就是父组件想传递进来的-->
+      <bind-component :msg='printMsg'></bind-component>
+      <hr>
+      <p>使用和不使用v-bind的区别</p>
+      <!-- 我们发现使用v-bind的时候，以传入数组来说的话，还是会把它当成数组。而不是用v-bind呢，则把它当成字符串 -->
+      <child-component msg=[1,2,3,2,1]></child-component>
+      <child-component :msg=[1,2,3,2,1]></child-component>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        printMsg: '这是啥玩意啊'
+      },
+
+      components: {
+        'child-component': {
+          //利用props传递数据，在props里定义的变量，此时就可以在template中直接使用了
+          //与data中的差别是，data返回的对象是子组件自己定义的，而props中的则是来自父级的
+          //data中返回的个props中的值作用域都是组件本身，那么就说明他们可以在计算属性、方法等中使用
+          props: ['msg'],
+          template: `<div>{{msg}}</div>`
+        },
+        'bind-component': {
+          props: ['msg'],
+          template: `<div>{{msg}}</div>`
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

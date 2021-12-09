@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>组件的小技巧</legend>
+      <!-- 组件命名使用小写字母加-的方式 或者都是小写字母-->
+      <!-- <appComponent></appComponent> -->
+      <!-- template必须被包裹在标签中 ，也可以嵌套-->
+      <!-- <app-component2></app-component2> -->
+      <!-- 在组件中，除了template之外，也可以使用像data、computed、methods等 -->
+      <!-- data必须是一个方法,应该返回一个对象    我们之前有一个案例，点击两个按钮，另一个按钮上的数字也会变化，应该怎么解决呢？-->
+      <p>之前的</p>
+      <!-- 两个公用一个count，所以点击一个，另一个也会增加，因为是count增加了 -->
+      <button @click='sum'>{{count}}</button>
+      <button @click='sum'>{{count}}</button>
+      <hr>
+      <p>组件中的</p>
+      <!-- 使用组件，点击不同的按钮，返回的对象是不一样的，所以点击一个，另一个不会增加 -->
+      <btn-component></btn-component>
+      <btn-component></btn-component>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        count: 0
+      },
+      methods: {
+        sum() {
+          this.count++
+        }
+      },
+      components: {
+        'app-component': {
+          template: `<div>我是app中的组件</div>`
+        },
+
+        //不可以，会报错
+        /*'appComponent': {
+          template: `<div>我能不能行呢？</div>`
+        },
+        */
+        //也不可以，会编译报错
+        /*'app-component2': {
+          template: `我能不能行呢？`
+        },
+        */
+        'btn-component': {
+          template: `<button @click='sum1'>{{counter}}</button>`,
+          data() {
+            return {
+              counter: 0
+            }
+          },
+          methods: {
+            sum1() {
+              this.counter++
+            }
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

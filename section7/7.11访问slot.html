@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>可复用性的组件</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>作用域插槽</legend>
+      <!-- 用来获取子组件中的属性 -->
+      <app-component>
+        <h3 slot='header'>你好</h3>
+      </app-component>
+    </fieldset>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+      },
+      components: {
+        'app-component': {
+          template: `<div>
+              <slot name='header'>
+                  如果没有内容，我就作为默认内容
+                </slot>
+            </div>`,
+          mounted() {
+            //访问插槽
+            let a = this.$slots.header
+            let text = a[0].elm.innerText
+            console.log(a)
+            console.log(text)
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
