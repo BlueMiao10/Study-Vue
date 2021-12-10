@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>render函数</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>v-model在render函数中应用</legend>
+      <!-- 首先我们还原v-model语法糖 -->
+      <!-- v-bind绑定show ， 然后把变量利用props传入，绑定input事件，当我们输入时触发input事件,同时会返回数据$event.target.value，将值赋给show-->
+      <!-- <child :value='show' @input='print'></child>{{show}} -->
+      <!-- 使用v-model的话。就可以省略method -->
+      <child v-model='show'></child>{{show}}
+    </fieldset>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    Vue.component('child', {
+      props: ['value'],
+      render(createElement) {
+        debugger
+        //这里的this是VueComponent，即vue的实例
+        let self = this
+        return createElement('input', {
+          on: {
+            input(event) {
+              debugger
+              let a = this
+              //这里的this是Window ，触发事件的是vue实例，所以我们要用self
+              self.$emit('input', event.target.value)
+            }
+          }
+        })
+      }
+    })
+    const app = new Vue({
+      el: '#app',
+      data: {
+        show: ''
+      },
+      // methods: {
+      //   print(value) {
+      //     this.show = value
+      //   }
+      // }
+    })
+  </script>
+</body>
+
+</html>

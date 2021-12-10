@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>render函数</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>render函数的第一个参数</legend>
+      <child-component></child-component>
+    </fieldset>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+      },
+      components: {
+        'child-component': {
+          //render函数中传入的参数必须是createElement，这个不能变,他是个方法，被默认定义好的
+          render(createElement) {
+            console.log(createElement)
+            //ƒ (a, b, c, d) { return createElement(vm, a, b, c, d, true); }
+
+            //返回一个函数，有点像闭包，是把它创建的这个节点给返回出去
+            //render函数的第一个参数可以是 String | Object | Function   第一个参数是必选的
+            //String ==== 创建html 标签
+            //return createElement('h1')
+
+
+            //Object ==== 一个含有数据选项的对象(组件中的那些？)
+            // return createElement({
+            //   template: `<div>我还可以是什么呢？{{count}}</div>`,
+            //   data() {
+            //     return {
+            //       count: 0
+            //     }
+            //   }
+            // })
+
+
+            //Function ==== 返回含有数据选项的对象
+            let add = function () {
+              return {
+                template: `<div>你好</div>`
+              }
+            }
+            return createElement(add())
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

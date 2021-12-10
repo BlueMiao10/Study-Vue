@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>render函数</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>render函数的初步了解</legend>
+      <child-component :level='level'>Hello World</child-component>
+      <input type="text" v-model='level'>
+    </fieldset>
+  </div>
+
+  <!-- template下只允许有一个子节点  -->
+  <!-- <template id="hx">
+    <div>
+      <h1 v-if='level==1'>
+        <slot></slot>
+      </h1>
+      <h2 v-if='level==2'>
+        <slot></slot>
+      </h2>
+      <h3 v-if='level==3'>
+        <slot></slot>
+      </h3>
+      <h4 v-if='level==4'>
+        <slot></slot>
+      </h4>
+      <h5 v-if='level==5'>
+        <slot></slot>
+      </h5>
+      <h6 v-if='level==6'>
+        <slot></slot>
+      </h6>
+    </div>
+  </template>> -->
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        level: 1
+      },
+      //需求：实现组件内的文字可以根据父组件传入的数字实现不同大小（h1、h2等）的输出
+      components: {
+        'child-component': {
+          //基于组件的实现
+          // props: ['level'],
+          // template: '#hx'
+
+          //基于render函数的实现
+          render(createElement) {
+            return createElement('h' + this.level, this.$slots.default);
+          },
+          props: ['level']
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

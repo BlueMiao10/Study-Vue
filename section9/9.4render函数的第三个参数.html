@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>render函数</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>render函数的第三个参数</legend>
+      <child></child>
+    </fieldset>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //第三个参数也是可选===String | Array  Array使用的更多一点    作用是构建子节点
+    Vue.component('child', {
+      render(createElement) {
+        return createElement('div', [
+          createElement('h1', '我其实是第三个参数'),
+          createElement('h5', '我和上一个都是外边div的子节点')
+        ])
+      }
+    })
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+      }
+    })
+  </script>
+</body>
+
+</html>

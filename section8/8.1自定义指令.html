@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自定义指令</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>自定义指令</legend>
+      自动获取焦点：<input type="text" v-focus> <br><br>
+      不自动获取焦点：<input type="text">
+      <hr>
+      <p>钩子函数的参数</p>
+      <div v-print:name.a.b.c='province'></div>
+    </fieldset>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //与组件非常相似，也分为全局注册和局部注册
+    Vue.directive('focus', {
+      //指令选项，也就是钩子函数
+      inserted(el) {
+        el.focus()
+      }
+    })
+    Vue.directive('print', {
+      //视情况把他绑定在不同的钩子函数上
+      bind(el, binding) {
+        el.innerHTML =
+          'name' + '======' + binding.name + '<br>' +
+          'value' + '======' + binding.value + '<br>' +
+          'expression' + '======' + binding.expression + '<br>' +
+          'arg' + '======' + binding.arg + '<br>' +
+          'modifiers' + '======' + JSON.stringify(binding.modifiers) + '<br>'
+      }
+    })
+    const app = new Vue({
+      el: '#app',
+      data: {
+        province: {
+          first: '山东',
+          second: '广东',
+          third: '江苏'
+        }
+      },
+      directives: {
+      }
+    })
+  </script>
+</body>
+
+</html>

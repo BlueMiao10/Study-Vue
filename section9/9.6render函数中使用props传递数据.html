@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>render函数</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>render函数中使用props传递数据</legend>
+      <child :show='image'></child>
+      <button @click='select'>Click Me</button>
+    </fieldset>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    //需求：点击按钮切换图片
+    Vue.component('child', {
+      props: ['show'],
+      render(createElement) {
+
+        let imgSrc
+        if (this.show) {
+          imgSrc = '1.jpg'
+        } else {
+          imgSrc = '2.jpg'
+        }
+        return createElement('img', {
+          attrs: {
+            src: imgSrc
+          }
+        })
+      }
+    })
+    const app = new Vue({
+      el: '#app',
+      data: {
+        image: true
+      },
+      methods: {
+        select() {
+          this.image = !this.image
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

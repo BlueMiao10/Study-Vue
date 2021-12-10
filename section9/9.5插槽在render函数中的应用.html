@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>render函数</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>插槽在render函数中的应用</legend>
+      <child>
+        <p>锄禾日当午</p>
+        <h3 slot="header">悯农</h3>
+        <p>汗滴禾下土</p>
+        <h5 slot="footer">--------</h5>
+        <p>谁知盘中餐</p>
+        <p>粒粒皆辛苦</p>
+      </child>
+    </fieldset>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    Vue.component('child', {
+      render(createElement) {
+        debugger
+        //像this.$slots.header本身就是一个包含VNODE的数组
+        let header = this.$slots.header
+        let main = this.$slots.default
+        let footer = this.$slots.footer
+        //第三个参数存的实际上就是VNODE  虚拟DOM节点  在原生js中我们改变dom节点就会发生回流和重绘  现在使用虚拟节点就会只操作我们改变的地方
+        return createElement('div', [
+          //createElement 返回的就是一个VNODE
+          createElement('header', header),
+          createElement('main', main),
+          createElement('footer', footer)
+        ])
+      }
+    })
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+      }
+    })
+  </script>
+</body>
+
+</html>

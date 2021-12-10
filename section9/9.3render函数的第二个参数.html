@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>render函数</title>
+</head>
+
+<body>
+  <div id="app">
+    <fieldset>
+      <legend>render函数的第二个参数</legend>
+      <child-component></child-component>
+    </fieldset>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+      },
+      components: {
+        'child-component': {
+          render(createElement) {
+            //第一个参数是必选的，后边的都是可选的
+            //第二个参数是数据对象，只能是Object   其中有很多选项，可以看官方文档
+            return createElement('div', {
+              //在标签中添加值为true的class
+              class: {
+                foo: true,
+                baz: false
+              },
+              style: {
+                width: 50 + 'px',
+                height: 50 + 'px',
+                backgroundColor: 'red'
+              },
+              //正常的html属性  
+              attrs: {
+                id: 'foo',
+                href: 'www.baidu.com'
+                //...
+              },
+              //原生的DOM属性
+              domProps: {
+                innerHTML: '<p>我是个啥</p>'
+              }
+            })
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
